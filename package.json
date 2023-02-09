@@ -1,5 +1,5 @@
 {
-  "name": "yarn-plugin-entrypoint-lockfiles",
+  "name": "yarn-plugin-deploy-lockfiles",
   "main": "./sources/index.ts",
   "scripts": {
     "build": "builder build plugin"

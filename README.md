@@ -11,27 +11,27 @@ See https://github.com/yarnpkg/berry/issues/1223 for more details.
 
 ## Install
 
-- `yarn plugin import https://raw.githubusercontent.com/JanVoracek/yarn-plugin-entrypoint-lockfiles/main/bundles/%40yarnpkg/plugin-entrypoint-lockfiles.js`
-- In `package.json`, add `workspaces.entrypoints` pointing to your packages that needs their own `yarn.lock`.
+-   `yarn plugin import https://raw.githubusercontent.com/zaro/yarn-plugin-deploy-lockfiles/main/bundles/%40yarnpkg/plugin-deploy-lockfiles.js`
 
 Example:
+
 ```json
 "workspaces": {
     "packages": [
       "packages/*",
       "starters/*",
       "docusaurus"
-    ],
-    "entrypoints": [
-      "starters/remix",
-      "starters/next",
-      "starters/express"
     ]
   },
 ```
-Eeach folder listed in `entrypoints` must have a `package.json`, it will be used to compute their dependencies.
+
+Eeach folder listed in the workspace will get a `yarn.deploy.lock` file generated inside of it.
 
 ## Run
 
-Simply run `yarn`: you'll see a few lockfiles popping out at the root of your project.
-You can use those lockfiles as you wish, for example copying them in each folder at publish time.
+Simply run `yarn`: you'll see a few lockfiles popping out at each workspace folder.
+You can use those lockfiles as you wish, for example by setting
+
+    YARN_LOCKFILE_FILENAME=yarn.deploy.lock
+
+to use them as the main lockfile for deployment.
