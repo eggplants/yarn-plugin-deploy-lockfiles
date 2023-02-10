@@ -27,12 +27,15 @@ async function generateLockfiles(configuration: Configuration, project: Project,
       const lockfilePath = ppath.join(workspace.cwd, lockfileName);
 
       const lockfile = await generateLockfile(configuration, workspace.cwd, cache, workspaceReferences);
-      const stat = await xfs.statPromise(lockfilePath);
       let diff = false;
-
-      if (stat.size != lockfile.length) {
-        const existingContent = (await xfs.readFilePromise(lockfilePath)).toString();
-        diff = existingContent !== lockfile;
+      try {
+        const stat = await xfs.statPromise(lockfilePath);
+        if (stat.size != lockfile.length) {
+          const existingContent = (await xfs.readFilePromise(lockfilePath)).toString();
+          diff = existingContent !== lockfile;
+        }
+      } catch (e) {
+        diff = true;
       }
 
       if (diff) {
