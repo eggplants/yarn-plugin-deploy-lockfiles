@@ -6,7 +6,7 @@ import type { Filename, PortablePath } from '@yarnpkg/fslib';
 import type { Configuration, Hooks, Report } from '@yarnpkg/core';
 
 const green = (text: string) => `\x1b[32m${text}\x1b[0m`;
-const grey = (text: string) => `\x1b[30m${text}\x1b[0m`;
+const grey = (text: string) => text;
 
 const afterAllInstalled: Hooks['afterAllInstalled'] = async (project, options) => {
   const ws = project.workspacesByCwd.get(project.configuration.startingCwd);
