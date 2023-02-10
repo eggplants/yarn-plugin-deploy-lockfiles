@@ -5,6 +5,9 @@ import * as globrex from 'globrex';
 import type { Filename, PortablePath } from '@yarnpkg/fslib';
 import type { Configuration, Hooks, Report } from '@yarnpkg/core';
 
+const green = (text: string) => `\x1b[32m${text}\x1b[0m`;
+const grey = (text: string) => `\x1b[30m${text}\x1b[0m`;
+
 const afterAllInstalled: Hooks['afterAllInstalled'] = async (project, options) => {
   const ws = project.workspacesByCwd.get(project.configuration.startingCwd);
   await options.report.startTimerPromise(`Deployment lockfiles (${ws.relativeCwd})`, () =>
@@ -24,8 +27,23 @@ async function generateLockfiles(configuration: Configuration, project: Project,
       const lockfilePath = ppath.join(workspace.cwd, lockfileName);
 
       const lockfile = await generateLockfile(configuration, workspace.cwd, cache, workspaceReferences);
-      await xfs.writeFilePromise(lockfilePath, lockfile);
-      report.reportInfo(null, `${structUtils.stringifyIdent(workspace.locator)} => ${lockfilePath}`);
+      const stat = await xfs.statPromise(lockfilePath);
+      let diff = false;
+
+      if (stat.size != lockfile.length) {
+        const existingContent = (await xfs.readFilePromise(lockfilePath)).toString();
+        diff = existingContent !== lockfile;
+      }
+
+      if (diff) {
+        await xfs.writeFilePromise(lockfilePath, lockfile);
+        report.reportInfo(
+          null,
+          `${structUtils.stringifyIdent(workspace.locator)} => ` + green(`Writing ${lockfileName}`)
+        );
+      } else {
+        report.reportInfo(null, `${structUtils.stringifyIdent(workspace.locator)} => ` + grey('No change'));
+      }
     })
   );
 }
