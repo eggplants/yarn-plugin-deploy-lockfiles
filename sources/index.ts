@@ -31,6 +31,8 @@ async function generateLockfiles(configuration: Configuration, project: Project,
       try {
         const stat = await xfs.statPromise(lockfilePath);
         if (stat.size != lockfile.length) {
+          diff = true;
+        } else {
           const existingContent = (await xfs.readFilePromise(lockfilePath)).toString();
           diff = existingContent !== lockfile;
         }
