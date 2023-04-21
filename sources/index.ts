@@ -23,7 +23,7 @@ async function generateLockfiles(configuration: Configuration, project: Project,
 
   await Promise.all(
     deployments.map(async workspace => {
-      const lockfileName = `yarn.deploy.lock` as Filename;
+      const lockfileName = `yarn.lock` as Filename;
       const lockfilePath = ppath.join(workspace.cwd, lockfileName);
 
       const lockfile = await generateLockfile(configuration, workspace.cwd, cache, workspaceReferences);
