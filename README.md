@@ -11,7 +11,7 @@ See https://github.com/yarnpkg/berry/issues/1223 for more details.
 
 ## Install
 
--   `yarn plugin import https://raw.githubusercontent.com/zaro/yarn-plugin-deploy-lockfiles/main/bundles/%40yarnpkg/plugin-deploy-lockfiles.js`
+-   `yarn plugin import https://raw.githubusercontent.com/eggplants/yarn-plugin-deploy-lockfiles/main/bundles/%40yarnpkg/plugin-deploy-lockfiles.js`
 
 Example:
 
@@ -25,13 +25,13 @@ Example:
   },
 ```
 
-Eeach folder listed in the workspace will get a `yarn.deploy.lock` file generated inside of it.
+Eeach folder listed in the workspace will get a `yarn.lock` file generated inside of it.
 
 ## Run
 
 Simply run `yarn`: you'll see a few lockfiles popping out at each workspace folder.
 You can use those lockfiles as you wish, for example by setting
 
-    YARN_LOCKFILE_FILENAME=yarn.deploy.lock
+    YARN_LOCKFILE_FILENAME=yarn.lock
 
 to use them as the main lockfile for deployment.
